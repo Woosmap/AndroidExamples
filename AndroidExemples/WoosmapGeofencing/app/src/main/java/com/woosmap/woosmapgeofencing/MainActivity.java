@@ -56,14 +56,17 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //this.deleteDatabase("database-woosmap");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         // Instanciate woosmap object
-        // First parameter is the MainActivity Context, the second is a Listener which is called when new location is detected
         this.woosmap = Woosmap.getInstance().initializeWoosmap(this);
         this.woosmap.setLocationReadyListener(new WoosLocationReadyListener());
+
+        // Call trackNotificationOpen if you want to get some information about wich notifications are opened by your customers
         this.woosmap.trackNotificationOpen(this);
+
+        // For android version >= 8 you have to create a channel or use the woosmap's channel
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             this.woosmap.createWoosmapNotifChannel();
         }

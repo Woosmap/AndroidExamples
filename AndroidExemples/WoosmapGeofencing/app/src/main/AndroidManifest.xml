@@ -9,7 +9,7 @@
     <uses-permission android:name="android.location.GPS_ENABLED_CHANGE" />
 
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
@@ -33,7 +33,7 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <meta-data android:name="woosmap_private_key" android:value="your_private_key" />
+        <meta-data android:name="woosmap_private_key" android:value="<YOUR_PRIVATE_KEY>" />
     </application>
 
 </manifest>

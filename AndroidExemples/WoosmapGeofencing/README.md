@@ -1,4 +1,4 @@
-# Android Woosmap Geofencing exemple
+# Android Woosmap Geofencing Basic integration
 ## Use our maven's repository
 * Add our maven's repository in the build.gradle of the project
 ```gradle
@@ -86,7 +86,10 @@ To work properly ,you have to instanciate the Woosmap's object in the onCreate f
   
 ## Geolocation Permissions
 You have to grant geolocation permissions on the MainActivity, so you have to implement the functions `checkPermissions()` and `requestPermissions()`
-You can find a full exemple here : https://github.com/WebGeoServices/android_simple_exemple/blob/master/app/src/main/java/com/woosmap/wooziesexemple/MainActivity.java
+
+You can find a full exemple here: https://github.com/WebGeoServices/AndroidExemples/blob/master/AndroidExemples/WoosmapGeofencing/app/src/main/java/com/woosmap/woosmapgeofencing/MainActivity.java
+
+and official documentation here: https://developers.google.com/maps/documentation/android-sdk/location
 
 To authorize Woosmap to use geolocation you have to call the function `updateUserTracking()` with parameter **true**
 ```java
@@ -94,14 +97,6 @@ this.woosmap.updateUserTracking(true);
 ```
 
 ## Setup Notifications (Example with FireBase)
-https://firebase.google.com/docs/cloud-messaging/android/client#sample-register
-### Gradle configuration
-Add the FCM dependency
-```gradle
-dependencies {
-    implementation 'com.google.firebase:firebase-messaging:11.8.0'
-}
-```
 ### AndroidManifest
 You have to connect woosmap's services to FireBase service
 ```xml
@@ -116,6 +111,8 @@ You have to connect woosmap's services to FireBase service
     </intent-filter>
 </service>
 ```
+# Advanced integration
+## Customize notifications
 
 Then you have to define at least one Uri to an Activity of your application (exemple for the uri: `wooziesexemple://notif` on the MainActivity )
 
@@ -149,6 +146,8 @@ android:resource="@drawable/your_custom_icon_24dp" />
 
 ## Implement your own Notifications services
 ### AndroidManifest
+If you don't want to use the woosmap's notification service you can implement your own service
+
 You have to declare the firebases services in the Manifest
 ```xml
 <service android:name=".ExampleInstanceIdService">
@@ -257,8 +256,9 @@ Then just declare your receiver in the Manifest.xml in the application bloc
 </receiver>
 ```
 
-### For Android version 8
+### For Android version >= 8
 You have to declare a channel in the MainActivity https://developer.android.com/training/notify-user/channels.html
+
 Or create it by calling `createWoosmapNotifChannel()` from the woosmap object in the onCreate function
 ```java
 protected void onCreate(Bundle savedInstanceState) {
