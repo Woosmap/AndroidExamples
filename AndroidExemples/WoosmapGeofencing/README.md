@@ -1,8 +1,8 @@
-# Android Woosmap Geofencing Basic integration
-## Introduction
+# Introduction
 Woosmap Geofencing SDK collect geolocations of users ( with their consent ) and receive and display notifications based on these location and send by our servers.
 
 To use this SDK you need an account. If you haven't one, please contact us.
+# Android Woosmap Geofencing Basic integration
 ## Use our maven's repository
 * Add our maven's repository in the build.gradle of the project
 ```gradle
