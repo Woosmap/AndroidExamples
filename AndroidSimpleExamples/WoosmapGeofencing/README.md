@@ -1,10 +1,10 @@
 # Introduction
-Woosmap Geofencing SDK collect geolocations of users ( with their consent ) and receive and display notifications based on these location and send by our servers.
+Woosmap Geofencing SDK collects the geolocation of users (with their consent) to receive and display location based notifications sent by our servers.
 
-To use this SDK you need an account. If you haven't one, please contact us.
+To use this SDK you need an account. If you haven't got one, please contact us.
 # Android Woosmap Geofencing Basic integration
-## Use our maven's repository
-* Add our maven's repository in the build.gradle of the project
+## Use our Maven repository
+* Add our Maven repository in the build.gradle of the project
 ```gradle
 allprojects {
     repositories {
@@ -24,7 +24,7 @@ dependencies {
 ``` 
 
 ## AndroidManifest.xml Configuration
-First you have to add permissions to use geolocation and network
+First you have to add permissions to use the device geolocation and network
 ```xml
 <uses-permission android:name="android.permission.INTERNET" />
 <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -33,7 +33,7 @@ First you have to add permissions to use geolocation and network
 <uses-permission android:name="android.location.GPS_ENABLED_CHANGE" />
 ```
 
-Then you have to set the Woosmap's Private Key in the xml tag `application`
+Then you have to set the Woosmap Private Key in the xml tag `application`
 ```xml
 <application ... >
     ...
@@ -41,19 +41,19 @@ Then you have to set the Woosmap's Private Key in the xml tag `application`
     ...
 </application>
 ```
-## Connect your application to Firebase service
-Firebase connexion is required by woosmap's library and is used to receive and display notifications.
+## Connect your application to the Firebase service
+A Firebase connexion is required by Woosmap's library and is used to receive and display notifications.
 
-To connect your application to Firebase follow this tutorial https://firebase.google.com/docs/android/setup
+To connect your application to Firebase, follow this tutorial https://firebase.google.com/docs/android/setup
 
-if you see the error 
+If you see the following error: 
 ```
 Make sure to call FirebaseApp.initializeApp(Context) first 
 ``` 
-this mean that your application is not correctly connected to your Firebase project
+It means that your application is not correctly connected to your Firebase project.
 
 
-## Import and instanciate woosmap library
+## Import and instanciate Woosmap library
 ```java
 import com.webgeoservices.woosmap_mobile_sdk.Woosmap;
 
@@ -86,23 +86,23 @@ public class MainActivity extends AppCompatActivity {
     }
 }
 ```
-To work properly ,you have to instanciate the Woosmap's object in the onCreate function and call woosmap's onResume and onPause functions
+To work properly, you have to instanciate the Woosmap object in the onCreate function and call Woosmap's onResume and onPause functions.
   
-## Geolocation Permissions
-You have to grant geolocation permissions on the MainActivity, so you have to implement the functions `checkPermissions()` and `requestPermissions()`
+## Geolocation permissions
+You have to grant geolocation permissions on the MainActivity. To so you must to implement the functions `checkPermissions()` and `requestPermissions()`
 
-You can find a full exemple here: https://github.com/WebGeoServices/AndroidExemples/blob/master/AndroidExemples/WoosmapGeofencing/app/src/main/java/com/woosmap/woosmapgeofencing/MainActivity.java
+You can find a full example here: https://github.com/WebGeoServices/AndroidExemples/blob/master/AndroidExemples/WoosmapGeofencing/app/src/main/java/com/woosmap/woosmapgeofencing/MainActivity.java
 
-and official documentation here: https://developers.google.com/maps/documentation/android-sdk/location
+and the official documentation here: https://developers.google.com/maps/documentation/android-sdk/location
 
-To authorize Woosmap to use geolocation you have to call the function `updateUserTracking()` with parameter **true**
+To authorize Woosmap to use geolocation, you have to call the function `updateUserTracking()` with parameter **true**
 ```java
 this.woosmap.updateUserTracking(true);
 ```
 
-## Setup Notifications (Example with FireBase)
+## Setup notifications (Example with Firebase)
 ### AndroidManifest
-You have to connect woosmap's services to FireBase service
+You have to connect Woosmap services to the Firebase service
 ```xml
 <service android:name="com.webgeoservices.woosmap_mobile_sdk.WoosmapInstanceIDService">
     <intent-filter>
@@ -120,7 +120,7 @@ You have to connect woosmap's services to FireBase service
 ## For Android version >= 8
 You have to declare a channel in the MainActivity https://developer.android.com/training/notify-user/channels.html
 
-Or create it by calling `createWoosmapNotifChannel()` from the woosmap object in the onCreate function
+Or create it by calling `createWoosmapNotifChannel()` from the Woosmap object in the onCreate function
 ```java
 protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -134,7 +134,7 @@ protected void onCreate(Bundle savedInstanceState) {
 
 ## Customize notifications
 
-If you want to define the Activity which will be opened we a user click on the notification, you first have to set an Uri to this activity in the Manifest.xml (exemple for the uri: `wooziesexemple://notif` on the MainActivity )
+If you want to define the Activity which will be opened we a user clicks on the notification, you first have to set an Uri to this Activity in the Manifest.xml (example for the uri: `wooziesexemple://notif` on the MainActivity)
 
 ```xml
 <activity android:name=".MainActivity">
@@ -147,7 +147,7 @@ If you want to define the Activity which will be opened we a user click on the n
 </activity>
 ```
 
-Finaly you have to define the default Uri wich will be opened when the user click on the notification in the tag `application` 
+Finally you have to define the default Uri which will be opened when the user clicks on the notification in the tag `application` 
 
 ```xml
 <application ... >
@@ -157,8 +157,8 @@ Finaly you have to define the default Uri wich will be opened when the user clic
 </application>
 ```
 
-### Define notification's icon
-If you want to customize the small icon display in notifications, you have to add the icon file in the directory `res/drawable` and add the following meta-data in the `AndroidManifest.xml``
+### Define the notification's icon
+If you want to customize the small icon displayed in the notification, you must add the icon file in the directory `res/drawable` and add the following meta-data in the `AndroidManifest.xml``
 
 ```xml
 <application ...>
@@ -180,11 +180,11 @@ protected void onCreate(Bundle savedInstanceState) {
   this.woosmap.trackNotificationOpen(this);
 ```
 
-## Implement your own Notifications services
+## Implement your own notifications service
 ### AndroidManifest
-If you don't want to use the woosmap's notification service you can implement your own service
+If you don't want to use the Woosmap notification service, you can implement your own.
 
-You have to declare the firebases services in the Manifest
+You have to declare the Firebase service in the Manifest
 ```xml
 <service android:name=".ExampleInstanceIdService">
     <intent-filter>
@@ -200,7 +200,7 @@ You have to declare the firebases services in the Manifest
 `ExampleInstanceIdService` and `ExampleMessagingService` are your own services which have to inherit from `FirebaseInstanceIdService` and `FirebaseMessagingService`
  
 ### Notification implementation
-If you ever use the Firebase messaging service in your application, you can add the fcm token in the woosmap's initialization. Even if you give the fcmToken in the woosmap's initialization, you have to set it in the FirebaseInstanceIdService like explain on the next section.
+If you ever use the Firebase messaging service in your application, you can add the fcm token in the Woosmap initialization. Even if you give the fcmToken in the Woosmap initialization, you have to set it in the FirebaseInstanceIdService as explained in the next section.
 ```java
 protected void onCreate(Bundle savedInstanceState) {
   super.onCreate(savedInstanceState);
@@ -226,7 +226,7 @@ public class ExampleInstanceIdService extends FirebaseInstanceIdService {
 }
 
 ```
-You have to set the token in the woosmap's library when FCM refresh it
+You have to set the token in the Woosmap library when FCM refreshes it
 
 #### ExampleMessagingService
 ```java
@@ -249,9 +249,9 @@ public class ExampleMessagingService extends FirebaseMessagingService {
 }
 ```
 
-### Enable location after phone's reboot
+### Enable location after a device reboot
 #### Create the BroadcasReceiver
-To collect location after phone's reboot without relaunch the application you have to create a Broadcast which launch the jobInstantService `WoosmapRebootJobService` when he receive the BOOT_COMPLETED event
+To collect location after a device reboot without having to relaunch the application, you have to create a Broadcast which launches the jobInstantService `WoosmapRebootJobService` when it receives the BOOT_COMPLETED event.
 
 ```java
 import android.content.BroadcastReceiver;
@@ -278,7 +278,7 @@ Add the permission `android.permission.RECEIVE_BOOT_COMPLETED`
 ```
 <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 ```
-Then just declare your receiver in the Manifest.xml in the application bloc
+Then, just declare your receiver in the Manifest.xml in the application bloc
 
 ```
 <receiver android:name=".woosmapRunOnStartup">
