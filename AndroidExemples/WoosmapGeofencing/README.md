@@ -116,36 +116,68 @@ You have to connect woosmap's services to FireBase service
 </service>
 ```
 # Advanced integration
+
+## For Android version >= 8
+You have to declare a channel in the MainActivity https://developer.android.com/training/notify-user/channels.html
+
+Or create it by calling `createWoosmapNotifChannel()` from the woosmap object in the onCreate function
+```java
+protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        this.woosmap = Woosmap.getInstance().initializeWoosmap(
+                this,
+                FirebaseInstanceId.getInstance().getToken(),
+        );
+        this.woosmap.createWoosmapNotifChannel();
+    }
+```
+
 ## Customize notifications
 
-Then you have to define at least one Uri to an Activity of your application (exemple for the uri: `wooziesexemple://notif` on the MainActivity )
+If you want to define the Activity which will be opened we a user click on the notification, you first have to set an Uri to this activity in the Manifest.xml (exemple for the uri: `wooziesexemple://notif` on the MainActivity )
 
 ```xml
 <activity android:name=".MainActivity">
     ...
     <intent-filter>
-        <action android:name="android.intent.action.VIEW" />
-        <category android:name="android.intent.category.DEFAULT" />
-        <category android:name="android.intent.category.BROWSABLE" />
+        ...
         <data android:scheme="wooziesexemple"
             android:host="notif" />
     </intent-filter>
 </activity>
 ```
 
-Finaly you have to define the default Uri wich will be opened when the user click on the notification
+Finaly you have to define the default Uri wich will be opened when the user click on the notification in the tag `application` 
 
 ```xml
-<meta-data android:name="woosmap_notification_defautl_uri" android:value="wooziesexemple://notif" />
+<application ... >
+...
+    <meta-data android:name="woosmap_notification_defautl_uri" android:value="wooziesexemple://notif" />
+...
+</application>
 ```
 
 ### Define notification's icon
 If you want to customize the small icon display in notifications, you have to add the icon file in the directory `res/drawable` and add the following meta-data in the `AndroidManifest.xml``
 
 ```xml
-<meta-data
+<application ...>
+...
+    <meta-data
 android:name="woosmap.messaging.default_notification_icon"
 android:resource="@drawable/your_custom_icon_24dp" />
+...
+</application>
+```
+
+## Track if notifications are opened
+If you want to track if notifications are opened, you have to call `trackNotificationOpen()` in the Activity opened by the notification
+
+```java
+protected void onCreate(Bundle savedInstanceState) {
+  super.onCreate(savedInstanceState);
+  this.woosmap = Woosmap.getInstance().initializeWoosmap(this);
+  this.woosmap.trackNotificationOpen(this);
 ```
 
 ## Implement your own Notifications services
@@ -168,18 +200,15 @@ You have to declare the firebases services in the Manifest
 `ExampleInstanceIdService` and `ExampleMessagingService` are your own services which have to inherit from `FirebaseInstanceIdService` and `FirebaseMessagingService`
  
 ### Notification implementation
-You can set the fcmToken with the woosmap constructor. Even if you give the fcmToken to the 
-constructor, you have to set it in the FirebaseInstanceIdService like explain on the next section.
+If you ever use the Firebase messaging service in your application, you can add the fcm token in the woosmap's initialization. Even if you give the fcmToken in the woosmap's initialization, you have to set it in the FirebaseInstanceIdService like explain on the next section.
 ```java
 protected void onCreate(Bundle savedInstanceState) {
   super.onCreate(savedInstanceState);
   this.woosmap = Woosmap.getInstance().initializeWoosmap(
           this,
-          FirebaseInstanceId.getInstance().getToken()
+          <The_fcm_Token>
   );
-  this.woosmap.trackNotificationOpen(this);
 ```
-If you want to track if notifications are opened, you have to call `trackNotificationOpen()` in the Activity opened by the notification  
 
 #### ExampleInstanceIdService
 ```java
@@ -258,19 +287,4 @@ Then just declare your receiver in the Manifest.xml in the application bloc
         <category android:name="android.intent.category.DEFAULT" />
     </intent-filter>
 </receiver>
-```
-
-### For Android version >= 8
-You have to declare a channel in the MainActivity https://developer.android.com/training/notify-user/channels.html
-
-Or create it by calling `createWoosmapNotifChannel()` from the woosmap object in the onCreate function
-```java
-protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        this.woosmap = Woosmap.getInstance().initializeWoosmap(
-                this,
-                FirebaseInstanceId.getInstance().getToken(),
-        );
-        this.woosmap.createWoosmapNotifChannel();
-    }
 ```
