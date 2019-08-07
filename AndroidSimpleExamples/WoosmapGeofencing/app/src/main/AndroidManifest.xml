@@ -32,7 +32,7 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <meta-data android:name="woosmap_private_key" android:value="<YOUR_PRIVATE_KEY>" />
+        <meta-data android:name="woosmap_private_key" android:value="YOUR_PRIVATE_KEY" />
     </application>
 
 </manifest>
