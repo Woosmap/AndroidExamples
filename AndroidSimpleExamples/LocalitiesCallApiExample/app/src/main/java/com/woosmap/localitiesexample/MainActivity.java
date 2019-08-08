@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
             queryParams.put("types", "locality");
         }
         catch(Exception e){
-            //return new String("Exception: " + e.getMessage());
+            Log.e(TAG,("Exception: " + e.getMessage()));
         }
 
         WoosmapLocalities.getInstanceIfExists ().getPredictions(queryParams, new GetResponseCallback () {
@@ -105,10 +105,8 @@ public class MainActivity extends AppCompatActivity {
                     Log.e(TAG, " **title** " + title);
                     description[i] = title;
                 }
-
                 arrayAdapter = new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_1, description);
                 listView.setAdapter(arrayAdapter);
-
             }
 
             @Override
@@ -128,7 +126,6 @@ public class MainActivity extends AppCompatActivity {
                         dialog.cancel();
                     }
                 });
-
                 builder.show();
             }
 
