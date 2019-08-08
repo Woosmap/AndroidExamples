@@ -10,9 +10,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
-import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -25,12 +23,6 @@ import org.json.JSONObject;
 import com.google.gson.Gson;
 
 import static com.woosmap.localitiesexample.R.id.Input;
-import static com.woosmap.localitiesexample.R.id.Request;
-import static com.woosmap.localitiesexample.R.id.component;
-import static com.woosmap.localitiesexample.R.id.data;
-import static com.woosmap.localitiesexample.R.id.language;
-import static com.woosmap.localitiesexample.R.id.types;
-import static com.woosmap.localitiesexample.R.id.ViewJson;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -45,9 +37,6 @@ public class MainActivity extends AppCompatActivity {
 
     private String[] description;
 
-    private String jsonToView = null;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,38 +46,6 @@ public class MainActivity extends AppCompatActivity {
         WoosmapLocalities.initialize(this, private_key);
 
         listView = findViewById(R.id.result);
-
-        Button requestButton = findViewById(Request);
-        requestButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                callAnAPI();
-            }
-        });
-
-        Button viewJson = findViewById(ViewJson);
-        viewJson.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-
-                // Set up the input
-                final TextView input = new TextView(mContext);
-                builder.setView(input);
-                input.setMovementMethod(new ScrollingMovementMethod ());
-                input.setText(formatString(jsonToView));
-
-                // Set up the buttons
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-
-                builder.show();
-            }
-        });
 
         TextView input = findViewById(Input);
         input.addTextChangedListener(new TextWatcher () {
@@ -123,10 +80,10 @@ public class MainActivity extends AppCompatActivity {
         try {
             // Query params
             queryParams.put("input", ((TextView) findViewById(Input)).getText().toString());
-            queryParams.put("components", ((TextView) findViewById(component)).getText().toString());
-            queryParams.put("language", ((TextView) findViewById(language)).getText().toString());
-            queryParams.put("data", ((TextView) findViewById(data)).getText().toString());
-            queryParams.put("types", ((TextView) findViewById(types)).getText().toString());
+            queryParams.put("components","country:fr" );
+            queryParams.put("language","fr" );
+            queryParams.put("data", "standard");
+            queryParams.put("types", "locality");
         }
         catch(Exception e){
             //return new String("Exception: " + e.getMessage());
@@ -140,9 +97,7 @@ public class MainActivity extends AppCompatActivity {
                 LocalitiesApiData data;
                 Gson gson = new Gson();
                 data = gson.fromJson(WoosmapLocalities.getInstanceIfExists ().result, LocalitiesApiData.class);
-                jsonToView = WoosmapLocalities.getInstanceIfExists ().result;
                 description = new String[data.getLocalities().length];
-
 
                 for(int i = 0; i < data.getLocalities().length; i++ ){
                     Locality locality = data.getLocalities()[i];
@@ -180,37 +135,4 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-
-    public static String formatString(String text){
-
-        StringBuilder json = new StringBuilder();
-        String indentString = "";
-
-        for (int i = 0; i < text.length(); i++) {
-            char letter = text.charAt(i);
-            switch (letter) {
-                case '{':
-                case '[':
-                    json.append("\n" + indentString + letter + "\n");
-                    indentString = indentString + "\t";
-                    json.append(indentString);
-                    break;
-                case '}':
-                case ']':
-                    indentString = indentString.replaceFirst("\t", "");
-                    json.append("\n" + indentString + letter);
-                    break;
-                case ',':
-                    json.append(letter + "\n" + indentString);
-                    break;
-
-                default:
-                    json.append(letter);
-                    break;
-            }
-        }
-
-        return json.toString();
-    }
-
 }

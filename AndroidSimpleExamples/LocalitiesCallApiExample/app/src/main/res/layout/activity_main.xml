@@ -9,53 +9,22 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/Request"
-        android:layout_width="112dp"
-        android:layout_height="36dp"
-        android:layout_below="@+id/data"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="false"
-        android:layout_alignParentRight="false"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginRight="10dp"
-        android:text="Request" />
-
     <ListView
         android:id="@+id/result"
         android:layout_width="338dp"
         android:layout_height="404dp"
-        android:layout_below="@+id/Request"
-        android:layout_alignStart="@+id/Request"
+        android:layout_below="@+id/Input"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="0dp"
-        android:layout_marginTop="0dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="11dp" />
-
-    <EditText
-        android:id="@+id/component"
-        android:layout_width="268dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/types"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="20dp"
-        android:ems="10"
-        android:hint="Components"
-        android:inputType="textPersonName"
-        android:text="country:fr" />
 
     <EditText
         android:id="@+id/Input"
         android:layout_width="268dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/language"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="20dp"
@@ -66,59 +35,5 @@
         android:inputType="textPersonName"
         android:selectAllOnFocus="true"
         tools:text="paris" />
-
-    <EditText
-        android:id="@+id/data"
-        android:layout_width="268dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/Input"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="20dp"
-        android:ems="10"
-        android:hint="Data"
-        android:inputType="textPersonName" />
-
-    <EditText
-        android:id="@+id/language"
-        android:layout_width="268dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/component"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="20dp"
-        android:ems="10"
-        android:hint="Language"
-        android:inputType="textPersonName"
-        android:text="fr" />
-
-    <EditText
-        android:id="@+id/types"
-        android:layout_width="268dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/prod"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="20dp"
-        android:ems="10"
-        android:hint="Types"
-        android:inputType="textPersonName"
-        android:text="locality" />
-
-    <Button
-        android:id="@+id/ViewJson"
-        android:layout_width="112dp"
-        android:layout_height="36dp"
-        android:layout_below="@+id/data"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="20dp"
-        android:text="View Json" />
 
 </RelativeLayout>
