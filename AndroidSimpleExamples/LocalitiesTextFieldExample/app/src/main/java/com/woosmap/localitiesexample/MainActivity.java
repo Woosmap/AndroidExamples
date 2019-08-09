@@ -15,7 +15,7 @@ import static com.woosmap.localitiesexample.R.id.Input;
 
 public class MainActivity extends AppCompatActivity {
 
-    private String private_key = "de0a05ba-6018-4a5b-ad90-04ca427671d9";
+    private String private_key = "your_private_key";
 
     private Context mContext = MainActivity.this;
     private final String TAG = MainActivity.class.getSimpleName();
