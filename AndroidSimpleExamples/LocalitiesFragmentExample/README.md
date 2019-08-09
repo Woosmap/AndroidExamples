@@ -46,13 +46,12 @@ protected void onCreate(Bundle savedInstanceState) {
 
 # Embed an LocalitiesSupportFragment.
 ## Passing an object with (optinal) parameters
-he Localities (optinal) parameters are defined throw a JSONObject. These parameters are the same as the ones of the <a href='https://developers.woosmap.com/products/localities/search-city-postcode/#optional-parameters'>server's API point</a>
+The Localities (optinal) parameters are defined throw a JSONObject. These parameters are the same as the ones of the <a href='https://developers.woosmap.com/products/localities/search-city-postcode/#optional-parameters'>server's API point</a>
 
 ```java
         JSONObject queryParams = new JSONObject();
         try {
             // Query params
-            queryParams.put("input", ((TextView) findViewById(Input)).getText().toString());
             queryParams.put("components","country:fr" );
             queryParams.put("language","fr" );
             queryParams.put("data", "standard");
