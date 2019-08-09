@@ -1,7 +1,7 @@
 # Introduction
 Here is an example to show how to create an Autocomplete Widget which request the Woosmap <a href='https://developers.woosmap.com/products/localities/search-city-postcode/'>Localities service</a> and display the results.
 
-This example use an Intent to launch the WoosmapAutocomplete activity
+This example use an embedded an LocalitiesSupportFragment.
 
 # Get Started
 ## Import the WoosmapLocalities library:
