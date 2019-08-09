@@ -46,11 +46,9 @@ protected void onCreate(Bundle savedInstanceState) {
 
 # Embed an LocalitiesSupportFragment.
 ## Passing an object with (optinal) parameters
-You can create a custom search UI as an alternative to the UI provided by the Localities Search widget. To do this, your app must get localities predictions programmatically. Your app can get a list of predicted city or PostCode from the Localities API by calling WoosmapLocalities.getInstanceIfExists ().getPredictions. The Localities (optinal) parameters are defined throw a JSONObject. These parameters are the same as the ones of the <a href='https://developers.woosmap.com/products/localities/search-city-postcode/#optional-parameters'>server's API point</a>
+he Localities (optinal) parameters are defined throw a JSONObject. These parameters are the same as the ones of the <a href='https://developers.woosmap.com/products/localities/search-city-postcode/#optional-parameters'>server's API point</a>
 
 ```java
-// This is a GET type of rest API.
-    private void callAnAPI() {
         JSONObject queryParams = new JSONObject();
         try {
             // Query params
@@ -63,7 +61,6 @@ You can create a custom search UI as an alternative to the UI provided by the Lo
         catch(Exception e){
             Log.e(TAG,("Exception: " + e.getMessage()));
         }
-
 ```
 
 Add LocalitiesSupportFragment to an activity
