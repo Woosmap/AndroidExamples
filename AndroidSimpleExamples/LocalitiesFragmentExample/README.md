@@ -44,7 +44,7 @@ protected void onCreate(Bundle savedInstanceState) {
 * You must initialize the WoosmapLocalities before SetContaintView.
 
 
-# Get Localities programmatically
+# Embed an LocalitiesSupportFragment.
 ## Passing an object with (optinal) parameters
 You can create a custom search UI as an alternative to the UI provided by the Localities Search widget. To do this, your app must get localities predictions programmatically. Your app can get a list of predicted city or PostCode from the Localities API by calling WoosmapLocalities.getInstanceIfExists ().getPredictions. The Localities (optinal) parameters are defined throw a JSONObject. These parameters are the same as the ones of the <a href='https://developers.woosmap.com/products/localities/search-city-postcode/#optional-parameters'>server's API point</a>
 
