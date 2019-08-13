@@ -16,16 +16,15 @@ import static android.content.ContentValues.TAG;
 
 public class MainActivity extends AppCompatActivity {
 
-    private String private_key = "de0a05ba-6018-4a5b-ad90-04ca427671d9";
+    private String private_key = "your_private_key";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
         // Initialize WoosmapLocalities service
         WoosmapLocalities.initialize(this, private_key);
-
-        setContentView(R.layout.activity_main);
 
         // Initialize the LocalitiesSupportFragment.
         LocalitiesSupportFragment localitiesFragment = (LocalitiesSupportFragment)
