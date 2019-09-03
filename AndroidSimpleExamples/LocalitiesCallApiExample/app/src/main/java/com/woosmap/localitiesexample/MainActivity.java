@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.webgeoservices.woosmaplocalities.FindAutocompletePredictionsRequest;
 import com.webgeoservices.woosmaplocalities.GetResponseCallback;
 import com.webgeoservices.woosmaplocalities.LocalitiesApiData;
 import com.webgeoservices.woosmaplocalities.Locality;
@@ -21,6 +22,9 @@ import com.webgeoservices.woosmaplocalities.WoosmapLocalities;
 
 import org.json.JSONObject;
 import com.google.gson.Gson;
+import com.webgeoservices.woosmaplocalities.WoosmapSettings;
+
+import java.util.List;
 
 import static com.woosmap.localitiesexample.R.id.Input;
 
@@ -37,12 +41,14 @@ public class MainActivity extends AppCompatActivity {
 
     private String[] description;
 
+    public WoosmapLocalities woosmapLocalities = WoosmapLocalities.getInstance(this, private_key);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Initialize WoosmapLocalities service
+        // Specify the types of Locality data to return.
         WoosmapLocalities.initialize(this, private_key);
 
         listView = findViewById(R.id.result);
@@ -70,63 +76,58 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /*
-     * Here we are using a woosmap API to see how we can integrate rest API and parse
-     * data using GSON library.
+     * Here we are using a woosmap API to see how we can integrate rest API
      * */
 
     // This is a GET type of rest API.
     private void callAnAPI() {
-        JSONObject queryParams = new JSONObject();
-        try {
-            // Query params
-            queryParams.put("input", ((TextView) findViewById(Input)).getText().toString());
-            queryParams.put("components","country:fr" );
-            queryParams.put("language","fr" );
-            queryParams.put("data", "standard");
-            queryParams.put("types", "locality");
-        }
-        catch(Exception e){
-            Log.e(TAG,("Exception: " + e.getMessage()));
-        }
 
-        WoosmapLocalities.getInstanceIfExists ().getPredictions(queryParams, new GetResponseCallback () {
+        FindAutocompletePredictionsRequest.Builder requestBuilder =
+                FindAutocompletePredictionsRequest.builder ()
+                        .setQuery (((TextView) findViewById (Input)).getText ().toString ())
+                        .setCountry ("country:fr")
+                        .setType ("locality")
+                        .setData ("");
+
+
+        woosmapLocalities.findAutocompletePredictions (requestBuilder.build (), new GetResponseCallback () {
             @Override
-            public void onDataReceived(String result) {
-                if (result == null)
+            public void onDataReceived(List<Locality> response) {
+                if (response == null)
                     return;
-                LocalitiesApiData data;
-                Gson gson = new Gson();
-                data = gson.fromJson(WoosmapLocalities.getInstanceIfExists ().result, LocalitiesApiData.class);
-                description = new String[data.getLocalities().length];
 
-                for(int i = 0; i < data.getLocalities().length; i++ ){
-                    Locality locality = data.getLocalities()[i];
-                    String title = locality.getDescription().replace(" ", "");
-                    Log.e(TAG, " **title** " + title);
+                description = new String[response.size ()];
+                for (int i = 0; i < response.size (); i++) {
+                    Locality locality = response.get (i);
+                    String title = locality.getDescription ().replace (" ", "");
+                    Log.e (TAG, " **title** " + title);
                     description[i] = title;
                 }
-                arrayAdapter = new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_1, description);
-                listView.setAdapter(arrayAdapter);
+
+                arrayAdapter = new ArrayAdapter (MainActivity.this, android.R.layout.simple_list_item_1, description);
+                listView.setAdapter (arrayAdapter);
+
             }
 
             @Override
             public void onFailure(String result) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                AlertDialog.Builder builder = new AlertDialog.Builder (mContext);
 
                 // Set up the input
-                final TextView input = new TextView(mContext);
-                builder.setView(input);
-                input.setMovementMethod(new ScrollingMovementMethod());
-                input.setText(result);
+                final TextView input = new TextView (mContext);
+                builder.setView (input);
+                input.setMovementMethod (new ScrollingMovementMethod ());
+                input.setText (result);
 
                 // Set up the buttons
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton ("OK", new DialogInterface.OnClickListener () {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
+                        dialog.cancel ();
                     }
                 });
-                builder.show();
+
+                builder.show ();
             }
 
         });
