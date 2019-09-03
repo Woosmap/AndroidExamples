@@ -54,7 +54,7 @@ passing a FindAutocompletePredictionsRequest object with the following parameter
 
 These parameters are the same as the ones of the <a href='https://developers.woosmap.com/products/localities/search-city-postcode/#optional-parameters'>server's API point</a>
 
-The example below shows a complete call to WoosmapLocalities.getInstanceIfExists().getPredictions().
+The example below shows a complete call to WoosmapLocalities.findAutocompletePredictions.
 ```java
 private void callAnAPI() {
         FindAutocompletePredictionsRequest.Builder requestBuilder =
