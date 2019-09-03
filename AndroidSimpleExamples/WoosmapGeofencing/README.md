@@ -11,7 +11,7 @@ allprojects {
         google()
         jcenter()
         maven {
-            url "https://wgs-android-maven.s3-eu-west-1.amazonaws.com"
+            url "https://android-maven.woosmap.com"
         }
     }
 }
