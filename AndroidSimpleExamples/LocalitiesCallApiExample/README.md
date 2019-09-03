@@ -54,84 +54,60 @@ passing a FindAutocompletePredictionsRequest object with the following parameter
 
 These parameters are the same as the ones of the <a href='https://developers.woosmap.com/products/localities/search-city-postcode/#optional-parameters'>server's API point</a>
 
-```java
-// This is a GET type of rest API.
-    private void callAnAPI() {
-        JSONObject queryParams = new JSONObject();
-        try {
-            // Query params
-            queryParams.put("input", ((TextView) findViewById(Input)).getText().toString());
-            queryParams.put("components","country:fr" );
-            queryParams.put("language","fr" );
-            queryParams.put("data", "standard");
-            queryParams.put("types", "locality");
-        }
-        catch(Exception e){
-            Log.e(TAG,("Exception: " + e.getMessage()));
-        }
-
-```
-
 The example below shows a complete call to WoosmapLocalities.getInstanceIfExists().getPredictions().
 ```java
 private void callAnAPI() {
-        JSONObject queryParams = new JSONObject();
-        try {
-            // Query params
-            queryParams.put("input", ((TextView) findViewById(Input)).getText().toString());
-            queryParams.put("components","country:fr" );
-            queryParams.put("language","fr" );
-            queryParams.put("data", "standard");
-            queryParams.put("types", "locality");
-        }
-        catch(Exception e){
-            Log.e(TAG,("Exception: " + e.getMessage()));
-        }
+        FindAutocompletePredictionsRequest.Builder requestBuilder =
+                FindAutocompletePredictionsRequest.builder ()
+                        .setQuery (((TextView) findViewById (Input)).getText ().toString ())
+                        .setCountry ("country:fr")
+                        .setType ("locality")
+                        .setData ("");
 
-        WoosmapLocalities.getInstanceIfExists ().getPredictions(queryParams, new GetResponseCallback () {
+
+        woosmapLocalities.findAutocompletePredictions (requestBuilder.build (), new GetResponseCallback () {
             @Override
-            public void onDataReceived(String result) {
-                if (result == null)
+            public void onDataReceived(List<Locality> response) {
+                if (response == null)
                     return;
-                LocalitiesApiData data;
-                Gson gson = new Gson();
-                data = gson.fromJson(WoosmapLocalities.getInstanceIfExists ().result, LocalitiesApiData.class);
-                description = new String[data.getLocalities().length];
 
-                for(int i = 0; i < data.getLocalities().length; i++ ){
-                    Locality locality = data.getLocalities()[i];
-                    String title = locality.getDescription().replace(" ", "");
-                    Log.e(TAG, " **title** " + title);
+                description = new String[response.size ()];
+                for (int i = 0; i < response.size (); i++) {
+                    Locality locality = response.get (i);
+                    String title = locality.getDescription ().replace (" ", "");
+                    Log.e (TAG, " **title** " + title);
                     description[i] = title;
                 }
 
-                arrayAdapter = new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_1, description);
-                listView.setAdapter(arrayAdapter);
+                arrayAdapter = new ArrayAdapter (MainActivity.this, android.R.layout.simple_list_item_1, description);
+                listView.setAdapter (arrayAdapter);
 
             }
 
             @Override
             public void onFailure(String result) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                AlertDialog.Builder builder = new AlertDialog.Builder (mContext);
 
                 // Set up the input
-                final TextView input = new TextView(mContext);
-                builder.setView(input);
-                input.setMovementMethod(new ScrollingMovementMethod());
-                input.setText(result);
+                final TextView input = new TextView (mContext);
+                builder.setView (input);
+                input.setMovementMethod (new ScrollingMovementMethod ());
+                input.setText (result);
 
                 // Set up the buttons
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton ("OK", new DialogInterface.OnClickListener () {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
+                        dialog.cancel ();
                     }
                 });
 
-                builder.show();
+                builder.show ();
             }
 
         });
 
     }
 ```
+The API returns an List<Locality> in a callback onDataReceived. The List<Locality> contains a list of Locality objects representing predicted localities. 
+The list may be empty, if there is no known place corresponding to the query and the filter criteria.
