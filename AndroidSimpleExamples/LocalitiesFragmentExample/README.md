@@ -6,26 +6,26 @@ This example use an Intent to launch the WoosmapAutocomplete activity
 # Get Started
 ## Import the WoosmapLocalities library:
 ### Add our maven's repo:
-In the project's gradle file add our maven's reporsitory `https://wgs-android-maven.s3-eu-west-1.amazonaws.com`
+In the project's gradle file add our maven's reporsitory `https://android-maven.woosmap.com`
 ```gradle
 allprojects {
     repositories {
         google()
         jcenter()
         maven {
-            url "https://wgs-android-maven.s3-eu-west-1.amazonaws.com"
+            url "https://android-maven.woosmap.com"
         }
     }
 }
 ```
 
 ### Import our library:
-In the application's gradle configuration add the dependecie `com.webgeoservices:woosmaplocalities:0.0.2`
+In the application's gradle configuration add the dependecie `com.webgeoservices:woosmaplocalities:0.0.3`
 
 ```gradle
 dependencies {
     ...
-    implementation 'com.webgeoservices:woosmaplocalities:0.0.2'
+    implementation 'com.webgeoservices:woosmaplocalities:0.0.3'
 }
 ```
 ## Initialize the WoosmapLocalities Service
@@ -37,34 +37,12 @@ Then in the onCreate call the static method `WoosmapLocalities.initialize(Contex
 protected void onCreate(Bundle savedInstanceState) {
     ...
     WoosmapLocalities.initialize(this, private_key);
-    setContentView(R.layout.activity_main);
     ...
 }
 ```
-* You must initialize the WoosmapLocalities before SetContaintView.
 
 
-# Get Localities programmatically
-## Passing an object with (optinal) parameters
-You can create a custom search UI as an alternative to the UI provided by the Localities Search widget. To do this, your app must get localities predictions programmatically. Your app can get a list of predicted city or PostCode from the Localities API by calling WoosmapLocalities.getInstanceIfExists ().getPredictions. The Localities (optinal) parameters are defined throw a JSONObject. These parameters are the same as the ones of the <a href='https://developers.woosmap.com/products/localities/search-city-postcode/#optional-parameters'>server's API point</a>
-
-```java
-// This is a GET type of rest API.
-    private void callAnAPI() {
-        JSONObject queryParams = new JSONObject();
-        try {
-            // Query params
-            queryParams.put("input", ((TextView) findViewById(Input)).getText().toString());
-            queryParams.put("components","country:fr" );
-            queryParams.put("language","fr" );
-            queryParams.put("data", "standard");
-            queryParams.put("types", "locality");
-        }
-        catch(Exception e){
-            Log.e(TAG,("Exception: " + e.getMessage()));
-        }
-
-```
+# Embed an AutocompleteSupportFragment.
 
 Add LocalitiesSupportFragment to an activity
 To add LocalitiesSupportFragment to an activity, add a new fragment to an XML layout. For example:
@@ -86,32 +64,30 @@ To add LocalitiesSupportFragment to an activity, add a new fragment to an XML la
 Add a LocalitiesSupportListener to an activity
 The LocalitiesSupportListener handles returning a place in response to the user's selection. The following code shows creating a reference to the fragment and adding a listener to your LocalitiesSupportFragment:
 
-```java
+```java        
         // Initialize the LocalitiesSupportFragment.
-        LocalitiesSupportFragment localitiesFragment = (LocalitiesSupportFragment)
+        LocalitiesSupportFragment autocompleteFragment = (LocalitiesSupportFragment)
                 getSupportFragmentManager ().findFragmentById (R.id.localities_fragment);
-                
-        // Specify the types of Locality data to return.
-        JSONObject queryParams = new JSONObject();
-        try {
-            // Query params
-            queryParams.put("components","country:fr" );
-            queryParams.put("language","fr" );
-            queryParams.put("data", "standard");
-            queryParams.put("types", "locality");
-        }
-        catch(Exception e){
-            Log.e(TAG, "Exception: " + e.getMessage());
-        }
+
 
         // Set option parameters
-        localitiesFragment.queryParams = queryParams;
+        // Set Query
+        autocompleteFragment.setInitialQuery ("Paris");
+
+        // Set Country
+        autocompleteFragment.setCountry ("country:fr");
+
+        // Set type
+        autocompleteFragment.setType ("locality");
+
+        // Set Data
+        autocompleteFragment.setData ("");
 
         // Set the threshold of the number of character to enhance the search
-        localitiesFragment.minCharRequest = 3;
+        autocompleteFragment.minCharRequest = 3;
 
         // Set up a PlaceSelectionListener to handle the response.
-        localitiesFragment.setOnLocalitiesSelectedListener (new LocalitiesSupportListener () {
+        autocompleteFragment.setOnLocalitiesSelectedListener (new LocalitiesSupportListener () {
             @Override
             public void onLocalitySelected(Locality locality) {
                 Log.e(TAG, " **Locality = ** " + locality.getDescription ());
