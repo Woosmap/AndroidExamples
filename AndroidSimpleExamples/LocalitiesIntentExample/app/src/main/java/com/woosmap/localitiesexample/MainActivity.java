@@ -9,8 +9,6 @@ import android.util.Log;
 import com.webgeoservices.woosmaplocalities.LocalitiesActivity;
 import com.webgeoservices.woosmaplocalities.WoosmapLocalities;
 
-import org.json.JSONObject;
-
 import static android.content.ContentValues.TAG;
 
 public class MainActivity extends AppCompatActivity {
@@ -22,25 +20,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Initialize WoosmapLocalities service
+        // Specify the types of Locality data to return.
         WoosmapLocalities.initialize(this, private_key);
 
-        // Specify the types of Locality data to return.
-        JSONObject queryParams = new JSONObject();
-        try {
-            // Query params
-            queryParams.put("components","country:fr" );
-            queryParams.put("language","fr" );
-            queryParams.put("data", "standard");
-            queryParams.put("types", "locality");
-            //queryParams.put("private_key", "your_private_key");
-        }
-        catch(Exception e){
-            // return new String("Exception: " + e.getMessage());
-        }
-
         Intent intent = new LocalitiesActivity.IntentBuilder()
-                .withQueryParams (queryParams)
+                .setCountry ("country:fr")
+                .setType ("locality")
+                .setData ("")
+                .setInitialQuery ("Paris")
                 .withMinChar (3)
                 .build(this);
         startActivityForResult(intent, LocalitiesActivity.LOCALITIES_REQUEST_CODE);
