@@ -13,19 +13,19 @@ allprojects {
         google()
         jcenter()
         maven {
-            url "https://wgs-android-maven.s3-eu-west-1.amazonaws.com"
+            url "https://android-maven.woosmap.com"
         }
     }
 }
 ```
 
 ### Import our library:
-In the application's gradle configuration add the dependecie `com.webgeoservices:woosmaplocalities:0.0.2`
+In the application's gradle configuration add the dependecie `com.webgeoservices:woosmaplocalities:0.0.3`
 
 ```gradle
 dependencies {
     ...
-    implementation 'com.webgeoservices:woosmaplocalities:0.0.2'
+    implementation 'com.webgeoservices:woosmaplocalities:0.0.3'
 }
 ```
 ## Initialize the WoosmapLocalities Service
@@ -55,26 +55,22 @@ Declare the `LocalitiesActivity` in the Manifest.xml file
 </application>
 ```
 ## Create an Intent
-Then create an Intent object. The Localities (optinal) parameters are defined throw a JSONObject. These parameters are the same as the ones of the <a href='https://developers.woosmap.com/products/localities/search-city-postcode/#optional-parameters'>server's API point</a>
+Then create an Intent object. 
+
+To launch the autocomplete widget using an intent, use LocalitiesActivity.IntentBuilder to create an intent, passing the desired Autocomplete parameters. The intent must call startActivityForResult, passing in a request code that identifies your intent.
+
+The Localities (optinal) parameters are the same as the ones of the <a href='https://developers.woosmap.com/products/localities/search-city-postcode/#optional-parameters'>server's API point</a>
 
 ```java
 protected void onCreate(Bundle savedInstanceState) {
-    JSONObject queryParams = new JSONObject();
-    try {
-        // Query params
-        queryParams.put("components","country:fr" );
-        queryParams.put("language","fr" );
-        queryParams.put("data", "standard");
-        queryParams.put("types", "locality");
-    }
-    catch(Exception e){
-        return new String("Exception: " + e.getMessage());
-    }
-
     Intent intent = new LocalitiesActivity.IntentBuilder()
-            .withQueryParams (queryParams)
-            .withMinChar (3)
-            .build(this);
+                    .setCountry ("country:fr")
+                    .setType ("locality")
+                    .setData ("")
+                    .setInitialQuery ("Paris")
+                    .withMinChar (3)
+                    .build(this);
+                
     startActivityForResult(intent, LocalitiesActivity.LOCALITIES_REQUEST_CODE);
 }
 ```
